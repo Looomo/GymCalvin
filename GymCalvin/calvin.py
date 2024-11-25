@@ -11,9 +11,10 @@ import pickle as pkl
 from calvin_env.envs.play_table_env import PlayTableSimEnv
 
 class ProxySpec:
-    def __init__(self, id) -> None:
+    def __init__(self, id, **kwargs) -> None:
         self.id = id
-    pass
+        self.kwargs = kwargs
+    # def set_attr()
 class CalvinEnv(PlayTableSimEnv):
     def __init__(self, tasks: dict = {}, **kwargs):
         self.max_episode_steps = kwargs.pop("max_episode_steps")
@@ -51,7 +52,7 @@ class CalvinEnv(PlayTableSimEnv):
         self._t = 0
         self.sequential = False
 
-        self.sepc = ProxySpec(env_id)
+        self.spec = ProxySpec(env_id, **kwargs)
     def get_dataset(self,):
         
         data = pkl.load(gzip.open(os.path.join(self.dataset_path, 'calvin.gz'), "rb"))
